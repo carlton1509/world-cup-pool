@@ -67,6 +67,45 @@ function saveName(){
     "Welcome " + name;
 }
 
+async function pickMatch(matchId,pick){
+
+  const player =
+    localStorage.getItem("playerName");
+
+  if(!player){
+    alert("Enter your name first");
+    return;
+  }
+
+  try{
+
+    const response = await fetch(
+      GOOGLE_SCRIPT_URL,
+      {
+        method:"POST",
+        body:JSON.stringify({
+          action:"savePick",
+          player:player,
+          matchId:matchId,
+          pick:pick
+        })
+      }
+    );
+
+    const result = await response.text();
+
+    console.log(result);
+
+    alert("Saved: " + pick);
+
+  }catch(err){
+
+    console.error(err);
+
+    alert("Save failed. Check console.");
+
+  }
+}
 async function loadMatches(){
 
   const response =
@@ -92,13 +131,25 @@ async function loadMatches(){
     div.className = "match";
 
     div.innerHTML = `
-      <strong>${match.home}</strong>
-      vs
-      <strong>${match.away}</strong>
-      <br>
-      ${match.date}
-    `;
+  <strong>${match.home}</strong>
+  vs
+  <strong>${match.away}</strong>
+  <br>
+  ${match.date}
+  <br><br>
 
+  <button onclick="pickMatch('${id}','${match.home}')">
+    ${match.home}
+  </button>
+
+  <button onclick="pickMatch('${id}','Draw')">
+    Draw
+  </button>
+
+  <button onclick="pickMatch('${id}','${match.away}')">
+    ${match.away}
+  </button>
+`;
     container.appendChild(div);
 
   });
