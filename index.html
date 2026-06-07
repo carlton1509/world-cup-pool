@@ -10,37 +10,52 @@ body{
   font-family:Arial,sans-serif;
   max-width:900px;
   margin:20px auto;
-  padding:20px;
+  padding:15px;
 }
 
 input{
-  padding:10px;
-  width:250px;
+  padding:12px;
+  width:100%;
+  max-width:350px;
+  box-sizing:border-box;
 }
 
 button{
-  padding:10px;
-  margin:5px;
+  padding:12px;
+  margin:4px;
   cursor:pointer;
+  min-height:44px;
 }
 
 .match{
   border:1px solid #ddd;
   border-radius:8px;
-  padding:12px;
-  margin-bottom:10px;
+  padding:16px;
+  margin-bottom:12px;
+  background:white;
 }
   .selected{
   background:#4CAF50;
   color:white;
+  font-weight:bold;
 }
-  
+  @media (max-width: 600px) {
+
+  .match button{
+    display:block;
+    width:100%;
+    margin:6px 0;
+  }
+
+}
 </style>
 
 </head>
 <body>
 
-<h1>🏆 World Cup Pool 2026</h1>
+<h1 style="text-align:center;">
+🏆 World Cup Pool 2026
+</h1>
 
 <input id="playerName" placeholder="Enter your name">
 <button onclick="saveName()">Join Pool</button>
@@ -101,7 +116,6 @@ async function pickMatch(matchId,pick){
 
     console.log(result);
 
-alert("Saved: " + pick);
 
 loadMatches();
 
@@ -173,9 +187,7 @@ ${new Date(match.date).toLocaleDateString(
   }
 )}
 
-<br>
 
-${locked ? "🔒 Picks Closed" : "🟢 Open"}
 
   <br><br>
 
