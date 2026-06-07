@@ -152,7 +152,13 @@ div.innerHTML = `
   vs
   <strong>${match.away}</strong>
   <br>
-  ${match.date}
+ ${new Date(match.date).toLocaleDateString(
+  "en-GB",
+  {
+    day: "numeric",
+    month: "long"
+  }
+)}
   <br><br>
 
   <button
