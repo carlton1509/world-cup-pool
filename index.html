@@ -99,7 +99,7 @@ async function saveName(){
     }
   );
 }
-async function pickMatch(matchId,pick){
+async function pickMatch(matchId,pick,button){
 
   const player =
     localStorage.getItem("playerName");
@@ -108,7 +108,13 @@ async function pickMatch(matchId,pick){
     alert("Enter your name first");
     return;
   }
+const parent = button.parentElement;
 
+parent.querySelectorAll("button").forEach(btn=>{
+  btn.classList.remove("selected");
+});
+
+button.classList.add("selected");
   try{
 
     const response = await fetch(
@@ -129,7 +135,6 @@ async function pickMatch(matchId,pick){
     console.log(result);
 
 
-loadMatches();
 
   }catch(err){
 
@@ -206,21 +211,21 @@ ${new Date(match.date).toLocaleDateString(
   <button
      ${locked ? "disabled" : ""}
   class="${selectedPick === match.home ? 'selected' : ''}"
-  onclick="pickMatch('${id}','${match.home}')">
+  onclick="pickMatch('${id}','${match.home}', this)">
     ${match.home}
   </button>
 
   <button
      ${locked ? "disabled" : ""}
   class="${selectedPick === 'Draw' ? 'selected' : ''}"
-  onclick="pickMatch('${id}','Draw')">
+  onclick="pickMatch('${id}','Draw', this)">
     Draw
   </button>
 
   <button
   ${locked ? "disabled" : ""}
   class="${selectedPick === match.away ? 'selected' : ''}"
-  onclick="pickMatch('${id}','${match.away}')">
+  onclick="pickMatch('${id}','${match.away}', this)">
     ${match.away}
   </button>
 `;
