@@ -78,7 +78,10 @@ const GOOGLE_SCRIPT_URL =
 function saveName(){
 
   const name =
-    document.getElementById("playerName").value;
+    document.getElementById("playerName")
+    .value
+    .trim()
+    .toLowerCase();
 
   localStorage.setItem("playerName",name);
 
