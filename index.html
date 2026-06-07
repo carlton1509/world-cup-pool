@@ -155,6 +155,10 @@ lockTime.setHours(9,0,0,0);
     
 const locked =
   new Date() >= lockTime;
+
+if (locked) {
+  return;
+}
     
 div.innerHTML = `
   <strong>${match.home}</strong>
