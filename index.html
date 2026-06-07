@@ -282,45 +282,62 @@ function showOdds(){
   const container =
     document.getElementById("content");
 
-  container.innerHTML = "";
+  let html = `
+    <table style="
+      width:100%;
+      border-collapse:collapse;
+    ">
+      <tr>
+        <th style="text-align:left;padding:10px;border-bottom:1px solid #ddd;">
+          Match
+        </th>
+        <th style="padding:10px;border-bottom:1px solid #ddd;">
+          Home
+        </th>
+        <th style="padding:10px;border-bottom:1px solid #ddd;">
+          Away
+        </th>
+        <th style="padding:10px;border-bottom:1px solid #ddd;">
+          Draw
+        </th>
+      </tr>
+  `;
 
   data.odds.forEach(row => {
 
-    const matchId = row[0];
     const date = row[1];
     const homeTeam = row[2];
     const homeOdds = row[3];
     const awayTeam = row[4];
     const awayOdds = row[5];
-    const draw = row[6];
     const drawOdds = row[7];
 
-    const div =
-      document.createElement("div");
+    html += `
+      <tr>
+        <td style="padding:10px;border-bottom:1px solid #eee;">
+          ${homeTeam} vs ${awayTeam}
+          <br>
+          <small>${date}</small>
+        </td>
 
-    div.className = "match";
+        <td style="text-align:center;">
+          ${homeOdds}
+        </td>
 
-    div.innerHTML = `
-      <strong>
-        ${homeTeam} vs ${awayTeam}
-      </strong>
-      <br>
-      ${date}
-      <br><br>
+        <td style="text-align:center;">
+          ${awayOdds}
+        </td>
 
-      ${homeTeam}: ${homeOdds}
-      <br>
-
-      ${awayTeam}: ${awayOdds}
-      <br>
-
-      Draw: ${drawOdds}
+        <td style="text-align:center;">
+          ${drawOdds}
+        </td>
+      </tr>
     `;
-
-    container.appendChild(div);
-
   });
 
+  html += "</table>";
+
+  container.innerHTML = html;
 }
 
 function showLeaderboard(){
