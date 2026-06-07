@@ -30,6 +30,11 @@ button{
   padding:12px;
   margin-bottom:10px;
 }
+  .selected{
+  background:#4CAF50;
+  color:white;
+}
+  
 </style>
 
 </head>
@@ -96,7 +101,9 @@ async function pickMatch(matchId,pick){
 
     console.log(result);
 
-    alert("Saved: " + pick);
+alert("Saved: " + pick);
+
+loadMatches();
 
   }catch(err){
 
@@ -120,6 +127,13 @@ async function loadMatches(){
     document.getElementById("matches");
 
   container.innerHTML = "";
+  const player =
+  localStorage.getItem("playerName");
+
+const playerPredictions =
+  player && data.predictions[player]
+    ? data.predictions[player]
+    : {};
 
   Object.keys(data.matches).forEach(id => {
 
@@ -130,7 +144,10 @@ async function loadMatches(){
 
     div.className = "match";
 
-    div.innerHTML = `
+const selectedPick =
+  playerPredictions[id];
+
+div.innerHTML = `
   <strong>${match.home}</strong>
   vs
   <strong>${match.away}</strong>
@@ -138,15 +155,21 @@ async function loadMatches(){
   ${match.date}
   <br><br>
 
-  <button onclick="pickMatch('${id}','${match.home}')">
+  <button
+    class="${selectedPick === match.home ? 'selected' : ''}"
+    onclick="pickMatch('${id}','${match.home}')">
     ${match.home}
   </button>
 
-  <button onclick="pickMatch('${id}','Draw')">
+  <button
+    class="${selectedPick === 'Draw' ? 'selected' : ''}"
+    onclick="pickMatch('${id}','Draw')">
     Draw
   </button>
 
-  <button onclick="pickMatch('${id}','${match.away}')">
+  <button
+    class="${selectedPick === match.away ? 'selected' : ''}"
+    onclick="pickMatch('${id}','${match.away}')">
     ${match.away}
   </button>
 `;
