@@ -147,35 +147,52 @@ const playerPredictions =
 const selectedPick =
   playerPredictions[id];
 
+const matchDate = new Date(match.date);
+
+const lockTime = new Date(matchDate);
+
+lockTime.setHours(9,0,0,0);
+
+const locked =
+  new Date() >= lockTime;
+    
 div.innerHTML = `
   <strong>${match.home}</strong>
   vs
   <strong>${match.away}</strong>
   <br>
- ${new Date(match.date).toLocaleDateString(
+${new Date(match.date).toLocaleDateString(
   "en-GB",
   {
     day: "numeric",
     month: "long"
   }
 )}
+
+<br>
+
+${locked ? "🔒 Picks Closed" : "🟢 Open"}
+
   <br><br>
 
   <button
-    class="${selectedPick === match.home ? 'selected' : ''}"
-    onclick="pickMatch('${id}','${match.home}')">
+     ${locked ? "disabled" : ""}
+  class="${selectedPick === match.home ? 'selected' : ''}"
+  onclick="pickMatch('${id}','${match.home}')">
     ${match.home}
   </button>
 
   <button
-    class="${selectedPick === 'Draw' ? 'selected' : ''}"
-    onclick="pickMatch('${id}','Draw')">
+     ${locked ? "disabled" : ""}
+  class="${selectedPick === 'Draw' ? 'selected' : ''}"
+  onclick="pickMatch('${id}','Draw')">
     Draw
   </button>
 
   <button
-    class="${selectedPick === match.away ? 'selected' : ''}"
-    onclick="pickMatch('${id}','${match.away}')">
+  ${locked ? "disabled" : ""}
+  class="${selectedPick === match.away ? 'selected' : ''}"
+  onclick="pickMatch('${id}','${match.away}')">
     ${match.away}
   </button>
 `;
