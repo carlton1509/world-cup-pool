@@ -75,21 +75,30 @@ const GOOGLE_SCRIPT_URL =
 
   console.log(GOOGLE_SCRIPT_URL);
 
-function saveName(){
+async function saveName(){
 
   const name =
     document.getElementById("playerName")
-    .value
-    .trim()
-    .toLowerCase();
+      .value
+      .trim();
 
   localStorage.setItem("playerName",name);
 
   document.getElementById("welcome")
     .innerText =
     "Welcome " + name;
-}
 
+  await fetch(
+    GOOGLE_SCRIPT_URL,
+    {
+      method:"POST",
+      body:JSON.stringify({
+        action:"addPlayer",
+        name:name
+      })
+    }
+  );
+}
 async function pickMatch(matchId,pick){
 
   const player =
