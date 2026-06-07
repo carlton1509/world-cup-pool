@@ -92,10 +92,16 @@ const GOOGLE_SCRIPT_URL =
 
 async function saveName(){
 
-  const name =
-    document.getElementById("playerName")
-      .value
-      .trim();
+ const name =
+  document.getElementById("playerName")
+    .value
+    .trim();
+  .toLowerCase();
+
+if(!name){
+  alert("Please enter your name");
+  return;
+}
 
   localStorage.setItem("playerName",name);
 
