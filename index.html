@@ -311,7 +311,13 @@ function showOdds(){
 
   data.odds.forEach(row => {
 
-    const date = row[1];
+    const date = new Date(row[1]).toLocaleDateString(
+  "en-GB",
+  {
+    day: "numeric",
+    month: "long"
+  }
+);
     const homeTeam = row[2];
     const homeOdds = row[3].toFixed(3);
     const awayTeam = row[4];
