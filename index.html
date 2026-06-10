@@ -313,10 +313,10 @@ function showOdds(){
 
     const date = row[1];
     const homeTeam = row[2];
-    const homeOdds = row[3];
+    const homeOdds = row[3].toFixed(3);
     const awayTeam = row[4];
-    const awayOdds = row[5];
-    const drawOdds = row[7];
+    const awayOdds = row[5].toFixed(3);
+    const drawOdds = row[7].toFixed(3);
 
     html += `
       <tr>
