@@ -76,6 +76,11 @@ button{
   <button onclick="showLeaderboard()">
     🏅 Leaderboard
   </button>
+
+   <button onclick="showHistory()">
+    📜 History
+  </button>
+  
 </div>
 
 <div id="content">
@@ -351,7 +356,82 @@ function showOdds(){
 
   container.innerHTML = html;
 }
+function showHistory(){
 
+  const data = appData;
+
+  const container =
+    document.getElementById("content");
+
+  container.innerHTML = "";
+
+  const player =
+    localStorage.getItem("playerName");
+
+  if(!player){
+
+    container.innerHTML =
+      "Enter your name first.";
+
+    return;
+  }
+
+  const playerPredictions =
+    data.predictions[player] || {};
+
+  Object.keys(data.matches).forEach(id => {
+
+    const match =
+      data.matches[id];
+
+    const matchDate =
+      new Date(match.date);
+
+    const lockTime =
+      new Date(matchDate);
+
+    lockTime.setHours(9,0,0,0);
+
+    const locked =
+      new Date() >= lockTime;
+
+    if(!locked){
+      return;
+    }
+
+    const pick =
+      playerPredictions[id] || "-";
+
+    const div =
+      document.createElement("div");
+
+    div.className = "match";
+
+    div.innerHTML = `
+      <strong>
+        ${match.home} vs ${match.away}
+      </strong>
+      <br>
+
+      ${new Date(match.date).toLocaleDateString(
+        "en-GB",
+        {
+          day:"numeric",
+          month:"long"
+        }
+      )}
+
+      <br><br>
+
+      Your Pick:
+      <strong>${pick}</strong>
+    `;
+
+    container.appendChild(div);
+
+  });
+
+}
 function showLeaderboard(){
 
   const data = appData;
