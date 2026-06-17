@@ -315,7 +315,17 @@ function showOdds(){
   `;
 
   data.odds.forEach(row => {
+const matchDate = new Date(row[1]);
 
+const today = new Date();
+
+today.setHours(0,0,0,0);
+
+matchDate.setHours(0,0,0,0);
+
+if(matchDate < today){
+  return;
+}
     const date = new Date(row[1]).toLocaleDateString(
   "en-GB",
   {
