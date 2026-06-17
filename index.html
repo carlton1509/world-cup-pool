@@ -293,26 +293,67 @@ function showOdds(){
   const container =
     document.getElementById("content");
 
-  let html = `
-    <table style="
-      width:100%;
-      border-collapse:collapse;
-    ">
-      <tr>
-        <th style="text-align:left;padding:10px;border-bottom:1px solid #ddd;">
-          Match
-        </th>
-        <th style="padding:10px;border-bottom:1px solid #ddd;">
-          Home
-        </th>
-        <th style="padding:10px;border-bottom:1px solid #ddd;">
-          Away
-        </th>
-        <th style="padding:10px;border-bottom:1px solid #ddd;">
-          Draw
-        </th>
-      </tr>
-  `;
+ let html = `
+  <div style="
+    max-height:70vh;
+    overflow-y:auto;
+  ">
+  <table style="
+    width:100%;
+    border-collapse:collapse;
+  ">
+`;
+    html += `
+<tr>
+
+  <th style="
+    position:sticky;
+    top:0;
+    background:white;
+    z-index:10;
+    text-align:left;
+    padding:10px;
+    border-bottom:1px solid #ddd;
+  ">
+    Match
+  </th>
+
+  <th style="
+    position:sticky;
+    top:0;
+    background:white;
+    z-index:10;
+    padding:10px;
+    border-bottom:1px solid #ddd;
+  ">
+    Home
+  </th>
+
+  <th style="
+    position:sticky;
+    top:0;
+    background:white;
+    z-index:10;
+    padding:10px;
+    border-bottom:1px solid #ddd;
+  ">
+    Away
+  </th>
+
+  <th style="
+    position:sticky;
+    top:0;
+    background:white;
+    z-index:10;
+    padding:10px;
+    border-bottom:1px solid #ddd;
+  ">
+    Draw
+  </th>
+
+</tr>
+`;
+
 
   data.odds.forEach(row => {
 const matchDate = new Date(row[1]);
@@ -362,8 +403,7 @@ if(matchDate < today){
     `;
   });
 
-  html += "</table>";
-
+html += "</table></div>";
   container.innerHTML = html;
 }
 function showHistory(){
@@ -472,8 +512,8 @@ function showLeaderboard(){
           Points
         </th>
       </tr>
-  `;
 
+`;
   leaderboard.forEach((row,index)=>{
 
     let medal = index + 1;
