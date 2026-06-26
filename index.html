@@ -80,7 +80,9 @@ button{
    <button onclick="showHistory()">
     📜 History
   </button>
-  
+  <button onclick="showWinner()">
+🌍 Winner
+</button>
 </div>
 
 <div id="content">
@@ -552,6 +554,163 @@ function showLeaderboard(){
   html += "</table>";
 
   container.innerHTML = html;
+}
+
+const teams = [
+
+"Argentina",
+"Australia",
+"Austria",
+"Belgium",
+"Bosnia and Herzegovina",
+"Brazil",
+"Canada",
+"Cape Verde",
+"Colombia",
+"Croatia",
+"DR Congo",
+"Ecuador",
+"Egypt",
+"England",
+"France",
+"Germany",
+"Ghana",
+"Iran",
+"Iraq",
+"Ivory Coast",
+"Japan",
+"Mexico",
+"Morocco",
+"Netherlands",
+"Norway",
+"Paraguay",
+"Portugal",
+"Saudi Arabia",
+"Scotland",
+"Senegal",
+"South Africa",
+"South Korea",
+"Spain",
+"Sweden",
+"Switzerland",
+"United States",
+"Uruguay",
+"Uzbekistan"
+
+];
+function showWinner(){
+
+  const container =
+    document.getElementById("content");
+
+  const player =
+    localStorage.getItem("playerName");
+
+  if(!player){
+
+    container.innerHTML =
+      "Enter your name first.";
+
+    return;
+
+  }
+
+  const selectedTeam =
+    appData.winnerPredictions[player];
+
+  const lockTime =
+    new Date(2026,5,28,9,0,0);
+
+  const locked =
+    new Date() >= lockTime;
+
+  let html = `
+
+<h2>🌍 World Cup Winner</h2>
+
+<p>
+Choose who you think will win the World Cup.
+<br>
+Predictions close on
+<b>28 June 2026 at 09:00 Berlin time.</b>
+</p>
+
+`;
+
+  teams.forEach(team=>{
+
+    html += `
+
+<button
+
+${locked ? "disabled" : ""}
+
+class="${
+selectedTeam===team
+? "selected"
+: ""
+}"
+
+onclick="saveWinner('${team}',this)">
+
+${team}
+
+</button>
+
+`;
+
+  });
+
+  container.innerHTML = html;
+
+}
+async function saveWinner(team,button){
+
+  const player =
+    localStorage.getItem("playerName");
+
+  if(!player){
+
+    alert("Enter your name first");
+
+    return;
+
+  }
+
+  document
+    .querySelectorAll("#content button")
+    .forEach(btn=>{
+
+      btn.classList.remove("selected");
+
+    });
+
+  button.classList.add("selected");
+
+  await fetch(
+
+    GOOGLE_SCRIPT_URL,
+
+    {
+
+      method:"POST",
+
+      body:JSON.stringify({
+
+        action:"saveWinner",
+
+        player:player,
+
+        team:team
+
+      })
+
+    }
+
+  );
+
+  await loadData();
+
 }
   
 async function startApp(){
