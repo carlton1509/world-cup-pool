@@ -637,79 +637,111 @@ Predictions close on
 
 `;
 
-  teams.forEach(team=>{
+  html += `
+<br>
+
+<select
+    id="winnerTeam"
+    style="
+        width:100%;
+        max-width:400px;
+        padding:12px;
+        font-size:16px;
+    "
+    ${locked ? "disabled" : ""}
+>
+
+<option value="">
+Select a team
+</option>
+`;
+
+teams.forEach(team=>{
 
     html += `
+        <option
+            value="${team}"
+            ${selectedTeam===team ? "selected" : ""}
+        >
+            ${team}
+        </option>
+    `;
+
+});
+
+html += `
+</select>
+`;
+  if(!locked){
+
+html += `
+
+<br><br>
 
 <button
-
-${locked ? "disabled" : ""}
-
-class="${
-selectedTeam===team
-? "selected"
-: ""
-}"
-
-onclick="saveWinner('${team}',this)">
-
-${team}
-
+    onclick="saveWinner()"
+    style="
+        padding:12px 20px;
+        font-size:16px;
+    "
+>
+💾 Save Winner
 </button>
 
 `;
 
-  });
+}
 
   container.innerHTML = html;
 
 }
-async function saveWinner(team,button){
+async function saveWinner(){
 
   const player =
     localStorage.getItem("playerName");
 
   if(!player){
-
     alert("Enter your name first");
-
     return;
-
   }
 
-  document
-    .querySelectorAll("#content button")
-    .forEach(btn=>{
+  const team =
+    document.getElementById("winnerTeam").value;
 
-      btn.classList.remove("selected");
+  if(!team){
+    alert("Please select a team.");
+    return;
+  }
 
-    });
+  try{
 
-  button.classList.add("selected");
+    const response = await fetch(
+      GOOGLE_SCRIPT_URL,
+      {
+        method:"POST",
+        body:JSON.stringify({
+          action:"saveWinner",
+          player:player,
+          team:team
+        })
+      }
+    );
 
-  await fetch(
+    const result = await response.text();
 
-    GOOGLE_SCRIPT_URL,
+    console.log(result);
 
-    {
+    await loadData();
 
-      method:"POST",
+    alert("✅ Winner prediction saved!");
 
-      body:JSON.stringify({
+  }catch(err){
 
-        action:"saveWinner",
+    console.error(err);
 
-        player:player,
+    alert("Save failed. Check console.");
 
-        team:team
-
-      })
-
-    }
-
-  );
-
-  await loadData();
+  }
 
 }
   
