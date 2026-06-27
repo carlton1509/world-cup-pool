@@ -348,16 +348,7 @@ function showOdds(){
     Away
   </th>
 
-  <th style="
-    position:sticky;
-    top:0;
-    background:white;
-    z-index:10;
-    padding:10px;
-    border-bottom:1px solid #ddd;
-  ">
-    Draw
-  </th>
+ 
 
 </tr>
 `;
@@ -386,7 +377,6 @@ if(matchDate < today){
     const homeOdds = row[3].toFixed(3);
     const awayTeam = row[4];
     const awayOdds = row[5].toFixed(3);
-    const drawOdds = row[7].toFixed(3);
 
     html += `
       <tr>
@@ -404,9 +394,7 @@ if(matchDate < today){
           ${awayOdds}
         </td>
 
-        <td style="text-align:center;">
-          ${drawOdds}
-        </td>
+        
       </tr>
     `;
   });
@@ -625,7 +613,7 @@ function showWinner(){
     appData.winnerPredictions[player];
 
   const lockTime =
-    new Date(2026,6,6,9,0,0);
+    new Date(2026,6,4,9,0,0);
 
   const locked =
     new Date() >= lockTime;
