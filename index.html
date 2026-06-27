@@ -225,6 +225,8 @@ const locked =
 if (locked) {
   return;
 }
+ const knockout =
+  Number(id) >= 73;   
     
 div.innerHTML = `
   <strong>${match.home}</strong>
@@ -250,12 +252,16 @@ ${new Date(match.date).toLocaleDateString(
     ${match.home}
   </button>
 
-  <button
-     ${locked ? "disabled" : ""}
+ ${!knockout ? `
+
+<button
+  ${locked ? "disabled" : ""}
   class="${selectedPick === 'Draw' ? 'selected' : ''}"
   onclick="pickMatch('${id}','Draw', this)">
     Draw
-  </button>
+</button>
+
+` : ""}
 
   <button
   ${locked ? "disabled" : ""}
